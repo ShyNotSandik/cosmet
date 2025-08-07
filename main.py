@@ -14,7 +14,7 @@ load_dotenv()
 # Setting an OpenAI API
 client = openai.OpenAI(
     # This is the default and can be omitted
-    api_key=os.environ.get("OPENAI_API_KEY"),
+    api_key=st.secrets(["OPENAI_API_KEY"]),
 )
 # Setting a background image
 page_bg_img = '''
@@ -46,7 +46,7 @@ st.markdown(page_bg_img, unsafe_allow_html=True)
 
 
 # Setting up Enviroment credentials
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "json_keys.json"
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = st.secrets(["json_keys"])
 
 def main():
     
