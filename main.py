@@ -21,7 +21,7 @@ service_account_info = json.loads(base64.b64decode(encoded_key))
 
 # Setting an OpenAI API
 client = openai.OpenAI(
-    api_key=st.secrets(["OPENAI_API_KEY"]),
+    api_key=st.secrets["OPENAI_API_KEY"],
 )
 # Setting a background image
 page_bg_img = '''
