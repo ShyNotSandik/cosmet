@@ -5,15 +5,22 @@ import streamlit as st
 from dotenv import load_dotenv
 import openai
 import pandas as pd
+import base64
+import json
+from google.oauth2 import service_account
 
 
 load_dotenv()
+# Decoding json_keys.json
+encoded_key = st.secrets["gcp"]["json_keys"]
+service_account_info = json.loads(base64.b64decode(encoded_key))
+
+#Setting Google Cloud Vision
 
 
 
 # Setting an OpenAI API
 client = openai.OpenAI(
-    # This is the default and can be omitted
     api_key=st.secrets(["OPENAI_API_KEY"]),
 )
 # Setting a background image
@@ -45,8 +52,7 @@ st.markdown(page_bg_img, unsafe_allow_html=True)
 
 
 
-# Setting up Enviroment credentials
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "json_keys.json"
+# os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "json_keys.json"
 
 def main():
     
@@ -105,7 +111,9 @@ def main():
   
 # Detects text using Google Cloud Vision API
 def detect_text(image_file):
-    client = vision.ImageAnnotatorClient()
+    # Setting up Google Cloud Vison credentials 
+    credentials = service_account.Credentials.from_service_account_info(service_account_info)
+    client = vision.ImageAnnotatorClient(credentials=credentials)
     content = image_file.read()
     image = vision.Image(content=content)
     response = client.text_detection(image=image)
