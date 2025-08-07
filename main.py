@@ -46,7 +46,7 @@ st.markdown(page_bg_img, unsafe_allow_html=True)
 
 
 # Setting up Enviroment credentials
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = st.secrets(["json_keys"])
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "json_keys.json"
 
 def main():
     
