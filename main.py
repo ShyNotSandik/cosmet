@@ -15,13 +15,13 @@ load_dotenv()
 encoded_key = st.secrets["gcp"]["json_keys"]
 service_account_info = json.loads(base64.b64decode(encoded_key))
 
-#Setting Google Cloud Vision
+
 
 
 
 # Setting an OpenAI API
 client = openai.OpenAI(
-    api_key=st.secrets(["OPENAI_API_KEY"]),
+    api_key=st.secrets["OPENAI_API_KEY"],
 )
 # Setting a background image
 page_bg_img = '''
@@ -47,6 +47,18 @@ div_bg_color = """
 
 
 """
+
+hide_header = """
+<style>
+[data-testid='stHeader'] {
+     display:none;
+
+}
+
+</style>
+
+"""
+st.markdown(hide_header, unsafe_allow_html=True)
 st.markdown(div_bg_color, unsafe_allow_html= True)
 st.markdown(page_bg_img, unsafe_allow_html=True)
 
@@ -88,20 +100,6 @@ def main():
                except SyntaxError:
                    st.write("Sorry, your text has been recognised but not decoded, try again")
                
-
-                    
-
-                    
-
-
-                    # df = pd.DataFrame({
-                    #      "Product" : ingridients.keys(),
-                    #      "Purpuse": benefits,
-                         
-                    # })
-
-                    # st.dataframe(df, hide_index=True)
-                    # st.success("Done!")
                
       else:
            st.badge("Text wasn't detected, try again", color="red", width=1000)
@@ -110,6 +108,7 @@ def main():
     
   
 # Detects text using Google Cloud Vision API
+
 def detect_text(image_file):
     # Setting up Google Cloud Vison credentials 
     credentials = service_account.Credentials.from_service_account_info(service_account_info)
